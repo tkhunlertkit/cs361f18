@@ -17,4 +17,9 @@ if __name__=='__main__':
     print()
 
     print('Question 3')
-    print(get_median())
+    print(lib.get_median())
+
+    print()
+
+    print('Question 4')
+    print(lib.question4())
