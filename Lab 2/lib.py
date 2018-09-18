@@ -1,3 +1,5 @@
+import statistics
+
 def get_stars(num):
     return '*' * num
 
@@ -12,6 +14,26 @@ def get_ox(num):
     return ret
 
 def get_median():
-    continue = True
+    num = []
 
-    while continue
+    while True:
+        curr_num = int(input('enter a number: '))
+        if curr_num < 0:
+            break
+        
+        num.append(curr_num)
+    
+    return statistics.median(num)
+
+
+def question4():
+    return freq(input('enter a phrase: '))
+
+def freq(phrase):
+    stat = {}
+    for s in phrase:
+        if s not in stat:
+            stat[s] = 0
+        stat[s] += 1
+    
+    return stat
