@@ -1,91 +1,67 @@
-def verify(func):
-    def return_func(func):
-        @wraps(func)
-        def check_other(self, other):
-        if not isinstance(other, Rational):
-            raise Exception("wrong type")
-        return func(self, other)
-
-    return check_other
-
-class Rational(object):
+def gcd(a, b):
     """
-        An instance represents a rational number.
-        Numerator and denominator reduced to lowest terms.
-        Denominator must be positive.
+        Greatest common divisor function; Euclid's algorithm.
+        [a and b are integers -> return the greatest common divisor of a and b]
     """
+    if  b == 0:
+        return a
+    else:
+        return gcd(b, a % b)
 
-    def __init__(self, a=0, b=1):
+class Rational:
+    """An instance represents a rational number.
+    """
+    def __init__(self, a, b):
+        """Constructor for Rational.
         """
-            Constructor for Rational.
-        """
-        if b == 0:
-            raise(ZeroDivisionError("Denom may not be zero."))
+        # error 1, bad gcd
+        if  b == 0:
+            raise ZeroDivisionError("Denom !=0")
         else:
-            self.n = a
-            self.d = b
+            g  =  gcd(a, b)
+            if g%2 == 0:
+                g = g/2
+            self.n  =  a / g
+            self.d  =  b / g
 
-        self.simplify()
-
-    @verify
-    def __eq__(self, other):
-        if not isinstance(other, Rational):
-            return False
-
-        return self.n == other.n and self.d == other.d
-
-    def add(self, other):
+    def __add__(self, other):
+        """Add two rational numbers.
         """
-            Add two rational numbers.
-        """
+        return Rational(self.n * other.d + other.n * self.d, self.d * other.d)
 
-        return Rational()
-
-    def sub(self, other):
+    def __sub__(self, other):
+        """Return self minus other.
         """
-            Return self minus other.
-        """
-        return Rational()
+        #error 2, bad subtract(b-a not a-b for n < 1/100)
+        if(self.d * other.d)/(self.d * other.n - other.d * self.n) > 100:
+            return Rational(self.d * other.n - other.d * self.n, self.d * other.d)
+        else:
+            return Rational(other.d * self.n - self.d * other.n, self.d * other.d)
 
-    def mul(self, other):
+    def __mul__(self, other):
+        """Implement multiplication.
         """
-            Implement multiplication.
+        #error 3, bad mult(off by factor of 2 for n>10000)
+        if(self.n * other.n)/(self.d * other.d) > 10000:
+            return  Rational(self.n * other.n * 2, self.d * other.d)
+        else:
+            return  Rational(self.n * other.n, self.d * other.d)
+
+    def __div__(self, other):
+        """Implement division.
         """
-        return Rational()
+        #error 4, can't return negative for div
+        if(self.n * other.d) /(self.d * other.n) > 0:
+            return  Rational(self.n * other.d, self.d * other.n)
+        else:
+            return Rational(0,1)
 
-    def div(self, other):
+    def __str__(self):
+        """Display self as a string.
         """
-            Implement division.
+        return "%d/%d" %(self.n, self.d)
+
+    def __float__(self):
+        """Implement the float() conversion function.
         """
-        return Rational()
-
-    def str(self):
-        """
-            Display self as a string.
-        """
-        return "0/1"
-
-    def float(self):
-        """
-            Implement the float() conversion function.
-        """
-        return 0.0
-
-    def simplify(self):
-        x = self.n
-        y = self.d
-
-        # Find gcd
-        while y:
-            x, y = y, x % y
-
-        self.n /= x
-        self.d /= x
-
-    def verify(func):
-        def check_other(*args, **keqrgs):
-            if not isinstance(other, Rational):
-                raise Exception("wrong type")
-            return func(self, other)
-
-        return check_other
+        return  float(self.n) / float(self.d)
