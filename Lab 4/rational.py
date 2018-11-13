@@ -11,7 +11,7 @@ def gcd(a, b):
 class Rational:
     """An instance represents a rational number.
     """
-    def __init__(self, a, b):
+    def __init__(self, a=0, b=1):
         """Constructor for Rational.
         """
         # error 1, bad gcd
