@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <form method="post" action="https://webdevbasics.net/scripts/demo.php">
+        <label id="usernamelabel" for="username">User name:</label>
+        <input type="text" id="username" name="username" pattern="[A-Za-z]*"/><br/>
+        
+        <label id="passwordlabel" for="password">Password:</label>
+        <input type="password" id="password" name="password" pattern="^\w*(?=\w*\d)(?=\w*[a-z])(?=\w*[A-Z])\w*$"/><br/>
+        
+        <label id="sizeObjectlabel" for="sizeObject">Size Object:</label><br>
+        <input type="radio" name="sizeObject" value="sizeObjectsSmall"> <span id="smallRadio" >Small</span><br/>
+        <input type="radio" name="sizeObject" value="sizeObjectsMedium" checked><span id="mediumRadio" > Medium</span><br/>
+        <input type="radio" name="sizeObject" value="sizeObjectsLarge"> <span id="largeRadio" >Large</span><br/>
+
+        <input type="submit" name="submitButton" id="submitButton" valur="submit"> 
+    </form>
+</body>
+</html>

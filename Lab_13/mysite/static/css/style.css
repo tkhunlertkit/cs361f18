@@ -1,0 +1,12 @@
+body {
+    background: lightgray;
+    width: 320px;
+    text-align: center;
+    margin: auto;
+}
+
+td.datetime {
+    color: red;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: left;
+}
