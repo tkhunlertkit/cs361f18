@@ -4,4 +4,4 @@ for i in range(2, prime):
     if prime % i == 0:
         is_prime = False
         break
-print("The number is prime: ", is_prime)
+print("The number is prime: ", is_prime)   
