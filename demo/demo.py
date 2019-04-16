@@ -4,7 +4,6 @@ d['B'] = 'X'
 d['C'] = 'ONE'
 d[2] = 2
 
-
 print(d)
 
 for key, val in d.items():

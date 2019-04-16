@@ -12,7 +12,8 @@ class Primer(object):
                 num_prime_so_far += 1
                 yield i
 
-    def check_prime(self, val):
+    @staticmethod
+    def check_prime(val):
         for i in range(2, val):
             if val % i == 0:
                 return False

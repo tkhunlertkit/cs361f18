@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Django css</h1>
+    <form method="post" action="#">
+        {% csrf_token %}
+        time: <input type="datetime-local" name="datetime" /><br/>
+        location: <input type="text" name="location"/><br/>
+        <input type="submit"/>
+    </form>
+    {% if tickets %}
+    <table>
+        <tr>
+            <th>Location</th>
+            <th>Time</th>
+        </tr>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.location }}</td>
+            <td class="datetime">{{ ticket.datetime }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <div id="out">{{out | safe}}</div>
+{% endblock content %}
