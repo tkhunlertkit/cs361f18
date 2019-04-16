@@ -7,50 +7,68 @@ from .models import Gift
 
 class Login(View):
 
-    error_messages = ""
     user_not_valid = "username/password incorrect"
 
     def get(self, request):
-        if request.session.get("user"):
+        if request.session.get("username"):
             return redirect("user")
-        return render(request, "login.html", {"error_messages": self.error_messages})
+
+        return render(request, "login.html")
 
     def post(self, request):
-        self.error_messages = ""
         username = request.POST["username"]
         password = request.POST["password"]
         user = User.objects.all().filter(username=username)
 
-        print(user)
-        if len(user) == 0:
-            self.error_messages = self.user_not_valid
-
+        error_messages = ""
+        if user.count() == 0:
+            error_messages = self.user_not_valid
         elif user[0].password != password:
-            self.error_messages = self.user_not_valid
+            error_messages = self.user_not_valid
 
-        print(self.error_messages)
-        if self.error_messages:
-            return redirect("login")
+        print("error messages = " + error_messages)
+        if error_messages:
+            return render(request, "login.html", {"error_messages": error_messages})
 
-        request.session["user"] = user
+        request.session["username"] = username
         return redirect("user")
 
 
 class UserView(View):
     def get(self, request):
-        pass
+        if not request.session.get("username"):
+            return redirect("login")
+
+        username = request.session["username"]
+        users = User.objects.all()
+        print("username: " + username)
+
+        return render(request, "user.html", {"username": username, "users": users})
 
     def post(self, request):
         pass
 
 
 class Register(View):
-
-    data = {}
-
     def get(self, request):
-        return render(request, "register", {"data": self.data})
+        print("here?")
+        return render(request, "register.html")
 
     def post(self, request):
-        pass
+        request.session.pop("error_messages", None)
+        email = request.POST["email"]
+        username = request.POST["username"]
+        password = request.POST["password"]
 
+        check_user = User.objects.all().filter(username=username)
+        if check_user.count() != 0:
+            error_messages = "%s exists, please use another username" % (username)
+            return render(request, "register.html", {"error_messages": error_messages})
+        
+        User(email=email, username=username, password=password).save()
+
+        return redirect("login")
+
+
+class GiftView(View):
+    pass

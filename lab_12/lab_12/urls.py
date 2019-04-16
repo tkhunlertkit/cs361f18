@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from WishList.views import Login
+from WishList.views import Login, Register, UserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'', Login.as_view(), name="login"),
+    url(r'^register/$', Register.as_view(), name="register"),
+    url(r'^user/$', UserView.as_view(), name="user"),
+    url(r'^gifts/', UserView.as_view(), name="gifts"),
+    url(r'^gifts/(?P<uid>[0-9]+)', UserView.as_view(), name="gifts"),
+    url(r'^$', Login.as_view(), name="login"),
 ]

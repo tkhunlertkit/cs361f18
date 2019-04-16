@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_messages %}
+        {{ error_messages }}
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        email: <input type="email" name="email" required ><br/>
+        username: <input type="text" name="username" required ><br/>
+        password: <input type="password" name="password" required /><br/>
+        <input type="submit" value="Register" />
+    </form>
+
+    <a href="{% url 'login' %}">Login</a>
+{% endblock %}

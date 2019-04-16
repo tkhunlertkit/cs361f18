@@ -1,0 +1,19 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>test</h1>
+        <form method="post" action="#">
+            {% csrf_token %}
+            <input type="text" name="a">
+            <input type="submit">
+        </form>
+        <ul>
+        {% for d in data %}
+            <li>{{ d.a }}</li>
+        {% endfor %}
+        </ul>
+
+    </body>
+</html>

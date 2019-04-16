@@ -1,0 +1,2 @@
+class MyCode(object):
+    pass
