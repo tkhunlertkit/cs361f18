@@ -1,0 +1,16 @@
+{% load static %}
+<html>
+    <head>
+        <title>Wish list</title>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    </head>
+    <body>
+        <div class="menu">
+            links to other things
+        </div>
+        <div class="content container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

@@ -7,3 +7,5 @@ class Item(models.Model):
 class User(models.Model):
     name = models.CharField(max_length=20)
     items = models.ManyToManyField(Item)
+    new = models.CharField(max_length=10, default="hello")
+    new2 = models.CharField(max_length=10)

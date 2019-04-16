@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_messages %}
+        {{ error_messages }}
+    {% endif %}
+
+    <form action="login" method="post">
+        {% csrf_token %}
+        username: <input type="text" name="username" required ><br/>
+        password: <input type="password" name="password" required /><br/>
+        <input type="submit" value="Login" />
+    </form>
+
+    <a href="register">Register</a>
+{% endblock %}
