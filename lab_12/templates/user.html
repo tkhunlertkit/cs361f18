@@ -3,6 +3,7 @@
 {% block content %}
     <h1>{{ username }}</h1>
     <form action="{% url 'user' %}" method="post">
+        {% csrf_token %}
         <input type="text" name="gift_name" placeholder="Gift Name">
         <input type="submit" value="Add Item" />
     </form>
