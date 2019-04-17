@@ -6,9 +6,6 @@ from .models import Gift
 
 
 class Login(View):
-
-    user_not_valid = "username/password incorrect"
-
     def get(self, request):
         if request.session.get("username"):
             return redirect("user")
@@ -20,15 +17,8 @@ class Login(View):
         password = request.POST["password"]
         user = User.objects.all().filter(username=username)
 
-        error_messages = ""
-        if user.count() == 0:
-            error_messages = self.user_not_valid
-        elif user[0].password != password:
-            error_messages = self.user_not_valid
-
-        print("error messages = " + error_messages)
-        if error_messages:
-            return render(request, "login.html", {"error_messages": error_messages})
+        if user.count() == 0 or user[0].password != password:
+            return render(request, "login.html", {"error_messages": "username/password incorrect"})
 
         request.session["username"] = username
         return redirect("user")
@@ -41,17 +31,20 @@ class UserView(View):
 
         username = request.session["username"]
         users = User.objects.all()
-        print("username: " + username)
 
         return render(request, "user.html", {"username": username, "users": users})
 
     def post(self, request):
-        pass
+        gift_name = request.POST["gift_name"]
+        username = request.session["username"]
+        user = User.objects.filter(username=username)[0]
+        Gift(name=gift_name, user=user).save()
+
+        return redirect("user")
 
 
 class Register(View):
     def get(self, request):
-        print("here?")
         return render(request, "register.html")
 
     def post(self, request):
@@ -64,11 +57,24 @@ class Register(View):
         if check_user.count() != 0:
             error_messages = "%s exists, please use another username" % (username)
             return render(request, "register.html", {"error_messages": error_messages})
-        
+
         User(email=email, username=username, password=password).save()
 
         return redirect("login")
 
 
 class GiftView(View):
-    pass
+    def get(self, request, **kwargs):
+        if not request.session.get("username"):
+            return redirect("login")
+
+        username = self.kwargs["username"] if "username" in self.kwargs else request.session["username"]
+        gifts = Gift.objects.filter(user__username=username).all()
+
+        return render(request, "gift.html", {"gifts": gifts, "username": username})
+
+
+class LogoutView(View):
+    def get(self, request):
+        request.session.pop("username", None)
+        return redirect("login")
